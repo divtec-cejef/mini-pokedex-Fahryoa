@@ -9,6 +9,8 @@
 // Couleur par défaut pour les types de Pokémon non définis
 const DEFAULT_COLOR = '#ccc';
 
+const pokemonEl = document.querySelector("div.pokemon-container");
+
 // Couleurs pour chaque type de Pokémon
 const typeColors = {
     'Électrique': '#FFD700',
@@ -47,3 +49,17 @@ const pokemons = [
     { name: 'Ronflex', type: 'Normal', level: 45, img: 'ronflex.png' },
     { name: 'Mewtwo', type: 'Psy', level: 70, img: 'mewtwo.png' }
 ];
+
+function displayPokemons() {
+    for (let pokemon of pokemons) {
+        let compteurStr = `<p> ${pokemon.name} </p>`;
+        pokemonEl.innerHTML += compteurStr;
+    }
+    if (pokemonEl.innerHTML.length <= 0) {
+        pokemonEl.innerHTML += "Texte très amusant ! "
+    }
+}
+
+displayPokemons();
+
+
