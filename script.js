@@ -1,7 +1,7 @@
 /**
  * Exercice : Mini Pokédex
- * @author Steve Fallet <steve.fallet@dvitec.ch>
- * @since 2024-09-01
+ * @author Yoan Fahrni
+ * @since 26.08.2025
  */
 
 'use strict';
@@ -52,7 +52,13 @@ const pokemons = [
 
 function displayPokemons() {
     for (let pokemon of pokemons) {
-        let compteurStr = `<p> ${pokemon.name} </p>`;
+
+        let type = pokemon.type.split(",")
+
+        let compteurStr = `<p> ${pokemon.name} <small>${type[0]}</small> `;
+        if (type.length > 1) {
+            compteurStr += ` <small>${type[1]}</small> </p>`;
+        }
         pokemonEl.innerHTML += compteurStr;
     }
     if (pokemonEl.innerHTML.length <= 0) {
