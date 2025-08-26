@@ -50,16 +50,24 @@ const pokemons = [
     { name: 'Mewtwo', type: 'Psy', level: 70, img: 'mewtwo.png' }
 ];
 
+function generatePokemonCardHTML(pokemon) {
+
+        let type = pokemon.type.split(",");
+        let typeAfficher = type.join(" / ");
+
+        let cartePokemon = `<div class="pokemon-card" style="background: #705898;">
+        <img src= "images/${pokemon.img}" alt=${pokemon.name}>
+        <h2>${pokemon.name}</h2>
+        <div>Type: ${typeAfficher}</div> 
+        <div>Niveau: ${pokemon.level}</div>
+    </div>`;
+
+    return cartePokemon
+}
+
 function displayPokemons() {
     for (let pokemon of pokemons) {
-
-        let type = pokemon.type.split(",")
-
-        let compteurStr = `<p> ${pokemon.name} <small>${type[0]}</small> `;
-        if (type.length > 1) {
-            compteurStr += ` <small>${type[1]}</small> </p>`;
-        }
-        pokemonEl.innerHTML += compteurStr;
+        pokemonEl.innerHTML += generatePokemonCardHTML(pokemon);
     }
     if (pokemonEl.innerHTML.length <= 0) {
         pokemonEl.innerHTML += "Texte très amusant ! "
