@@ -54,8 +54,17 @@ function generatePokemonCardHTML(pokemon) {
 
         let type = pokemon.type.split(",");
         let typeAfficher = type.join(" / ");
+        let backgroundColor;
 
-        let cartePokemon = `<div class="pokemon-card" style="background: #705898;">
+    if (type.length === 2) {
+        const color1 = typeColors[type[0].trim()] || DEFAULT_COLOR;
+        const color2 = typeColors[type[1].trim()] || DEFAULT_COLOR;
+        backgroundColor = `linear-gradient(to right, ${color1} 50%, ${color2} 50%)`;
+    } else {
+        backgroundColor = typeColors[type[0].trim()] || DEFAULT_COLOR;
+    }
+
+        let cartePokemon = `<div class="pokemon-card" style="background: ${backgroundColor};">
         <img src= "images/${pokemon.img}" alt=${pokemon.name}>
         <h2>${pokemon.name}</h2>
         <div>Type: ${typeAfficher}</div> 
