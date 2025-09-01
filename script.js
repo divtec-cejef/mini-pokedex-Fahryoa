@@ -13,7 +13,11 @@ const pokemonEl = document.querySelector("div.pokemon-container");
 
 const searchBar = document.querySelector('#search-bar');
 
+const typeFilter = document.querySelector('#type-filter');
+
 searchBar.addEventListener('input', filterAndSortPokemons);
+
+typeFilter.addEventListener('change', filterAndSortPokemons);
 
 // Couleurs pour chaque type de Pokémon
 const typeColors = {
@@ -92,10 +96,17 @@ function displayPokemons(pokemonListe = pokemons) {
 
 function filterAndSortPokemons() {
     const searchValue = searchBar.value.toLowerCase();
+    const selectedType = typeFilter.value;
 
-    const filteredPokemons = pokemons.filter(pokemon =>
+    let filteredPokemons = pokemons.filter(pokemon =>
         pokemon.name.toLowerCase().includes(searchValue)
     );
+
+    if (selectedType !== "") {
+        filteredPokemons = filteredPokemons.filter(pokemon =>
+            pokemon.type.split(',').map(t => t.trim()).includes(selectedType)
+        );
+    }
 
     displayPokemons(filteredPokemons);
 }
