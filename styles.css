@@ -96,3 +96,45 @@ small {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+/* Conteneur des boutons et info */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Style des boutons */
+.pagination button {
+    background-color: #4CAF50; /* vert */
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover sur boutons */
+.pagination button:hover:not(:disabled) {
+    background-color: #45a049;
+}
+
+/* Boutons désactivés */
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    color: #666;
+}
+
+/* Style du texte de la page */
+.pagination #page-info {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+

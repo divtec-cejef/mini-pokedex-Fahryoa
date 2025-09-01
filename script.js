@@ -17,11 +17,37 @@ const typeFilter = document.querySelector('#type-filter');
 
 const sorteOrdre = document.querySelector('#sort-order');
 
+const prevBtn = document.querySelector('#prece-btn');
+
+const nextBtn = document.querySelector('#suiv-btn');
+
+const pageInfo = document.querySelector('#page-info');
+
+const itemsPerPage = 10;
+
+let currentPage = 1;
+
+let totalPages = 1;
+
 searchBar.addEventListener('input', filterAndSortPokemons);
 
 typeFilter.addEventListener('change', filterAndSortPokemons);
 
 sorteOrdre.addEventListener('change', filterAndSortPokemons);
+
+prevBtn.addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        filterAndSortPokemons(); // Re-filtrer et afficher la page correcte
+    }
+});
+
+nextBtn.addEventListener('click', () => {
+    if (currentPage < totalPages) {
+        currentPage++;
+        filterAndSortPokemons();
+    }
+});
 
 // Couleurs pour chaque type de Pokémon
 const typeColors = {
@@ -90,23 +116,23 @@ function displayPokemons(pokemonListe = pokemons) {
 
     pokemonEl.innerHTML = '';
 
-    totalPages = Math.ceil(pokemonListe.length / itemsPerPage);
-
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
-    const pokemonsToShow = pokemonListe.slice(startIndex, endIndex);
+    totalPages = Math.ceil(pokemonListe.length / itemsPerPage);
 
-    for (let pokemon of pokemonsToShow) {
+    const pokemonsAAfficher = pokemonListe.slice(startIndex, endIndex);
+
+    for (let pokemon of pokemonsAAfficher) {
         pokemonEl.innerHTML += generatePokemonCardHTML(pokemon);
     }
 
-    for (let pokemon of pokemonListe) {
-        pokemonEl.innerHTML += generatePokemonCardHTML(pokemon);
-    }
     if (pokemonEl.innerHTML.length <= 0) {
         pokemonEl.innerHTML += "Texte très amusant ! "
     }
+
+    updatePaginationControls();
+
 }
 
 function filterAndSortPokemons() {
@@ -142,6 +168,11 @@ function filterAndSortPokemons() {
     displayPokemons(filteredPokemons);
 }
 
+function updatePaginationControls() {
+    pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages;
+}
 
 displayPokemons();
 
