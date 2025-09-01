@@ -11,6 +11,10 @@ const DEFAULT_COLOR = '#ccc';
 
 const pokemonEl = document.querySelector("div.pokemon-container");
 
+const searchBar = document.querySelector('#search-bar');
+
+searchBar.addEventListener('input', filterAndSortPokemons);
+
 // Couleurs pour chaque type de Pokémon
 const typeColors = {
     'Électrique': '#FFD700',
@@ -56,7 +60,7 @@ function generatePokemonCardHTML(pokemon) {
         let typeAfficher = type.join(" / ");
         let backgroundColor;
 
-    if (type.length === 2) {
+    if (type.length >= 2) {
         const color1 = typeColors[type[0].trim()] || DEFAULT_COLOR;
         const color2 = typeColors[type[1].trim()] || DEFAULT_COLOR;
         backgroundColor = `linear-gradient(to right, ${color1} 50%, ${color2} 50%)`;
@@ -74,14 +78,28 @@ function generatePokemonCardHTML(pokemon) {
     return cartePokemon
 }
 
-function displayPokemons() {
-    for (let pokemon of pokemons) {
+function displayPokemons(pokemonListe = pokemons) {
+
+    pokemonEl.innerHTML = '';
+
+    for (let pokemon of pokemonListe) {
         pokemonEl.innerHTML += generatePokemonCardHTML(pokemon);
     }
     if (pokemonEl.innerHTML.length <= 0) {
         pokemonEl.innerHTML += "Texte très amusant ! "
     }
 }
+
+function filterAndSortPokemons() {
+    const searchValue = searchBar.value.toLowerCase();
+
+    const filteredPokemons = pokemons.filter(pokemon =>
+        pokemon.name.toLowerCase().includes(searchValue)
+    );
+
+    displayPokemons(filteredPokemons);
+}
+
 
 displayPokemons();
 
