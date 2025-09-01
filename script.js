@@ -15,9 +15,13 @@ const searchBar = document.querySelector('#search-bar');
 
 const typeFilter = document.querySelector('#type-filter');
 
+const sorteOrdre = document.querySelector('#sort-order');
+
 searchBar.addEventListener('input', filterAndSortPokemons);
 
 typeFilter.addEventListener('change', filterAndSortPokemons);
+
+sorteOrdre.addEventListener('change', filterAndSortPokemons);
 
 // Couleurs pour chaque type de Pokémon
 const typeColors = {
@@ -86,6 +90,17 @@ function displayPokemons(pokemonListe = pokemons) {
 
     pokemonEl.innerHTML = '';
 
+    totalPages = Math.ceil(pokemonListe.length / itemsPerPage);
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    const pokemonsToShow = pokemonListe.slice(startIndex, endIndex);
+
+    for (let pokemon of pokemonsToShow) {
+        pokemonEl.innerHTML += generatePokemonCardHTML(pokemon);
+    }
+
     for (let pokemon of pokemonListe) {
         pokemonEl.innerHTML += generatePokemonCardHTML(pokemon);
     }
@@ -97,6 +112,7 @@ function displayPokemons(pokemonListe = pokemons) {
 function filterAndSortPokemons() {
     const searchValue = searchBar.value.toLowerCase();
     const selectedType = typeFilter.value;
+    const ordre = sorteOrdre.value;
 
     let filteredPokemons = pokemons.filter(pokemon =>
         pokemon.name.toLowerCase().includes(searchValue)
@@ -106,6 +122,21 @@ function filterAndSortPokemons() {
         filteredPokemons = filteredPokemons.filter(pokemon =>
             pokemon.type.split(',').map(t => t.trim()).includes(selectedType)
         );
+    }
+
+    switch (ordre) {
+        case 'name-asc':
+            filteredPokemons.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+        case 'name-desc':
+            filteredPokemons.sort((a, b) => b.name.localeCompare(a.name));
+            break;
+        case 'level-asc':
+            filteredPokemons.sort((a, b) => a.level - b.level);
+            break;
+        case 'level-desc':
+            filteredPokemons.sort((a, b) => b.level - a.level);
+            break;
     }
 
     displayPokemons(filteredPokemons);
